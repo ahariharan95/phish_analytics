@@ -4,9 +4,22 @@ The main purpose of this project was to create and analyze a dataset compiling i
 
 The completion of this project involved the efforts of countless hours of research, hardwork, and troubleshooting by Aishwarya Hariharan and two more students from the STOR 390: Introduction to Data Science class at the Univeristy of North Carolina at Chapel Hill, along with the coursework/lectures and guidance from the course instructor, Iain Carmichael.
 
-### Components of the Project
+## Components of the Project
 
 The main components of this project include the dataset and the shiny app.  The dataset we created comprises of 31 variables and 30,883 observations including data such as dates, shows, tours, locations, venues, ratings, tracks.  The shiny app has two parts, "Find a Show" and "Show Map", which allow users to create their own virtual concerts and to explore already occurred shows, locations, and venues.  
 
 
 **Phanalytix: Shiny App**
+
+Phanalytix is a tool to help new users explore the band or Phish fans to figure out what show to listen to next. The research and data collection that went into creating the app helped uncover some interesting information. There are many resources out there that archive phish shows and analyze trends, but Phanalytix seeks to create applications for all this data, making it interactive and insightful.
+
+The "Find a Show" component allows users to create a virtual concert with the given inputs for song/show recommendations.  These inputs are dates, song length, rarity of songs, rating from Phish.net (Phish's website), number of covers, number of debuts, number of teases within the song, oddities, and a time frame for year.  Given these inputs, the app extracts a set of songs which fulfill the user's criteria. It also provides the link so that users can stream the songs, and some basic information about the show date, location, and venue. The "Show Map" component is another cool feature in the app. It's a map of the world with pinpoints that indicate locations Phish has performed at in the past. Upon clicking on the pins, users can see the venue name and the number of shows performed there. 
+
+
+**phanalytix.csv: Original Dataset**
+
+The large dataset we created is comprised of 31 variables and more than 30,000 observations.  The following is a link to the csv file.  
+
+## Blog
+
+There is also a blog which goes into more detail regarding the project.  It includes more information on the background of the band and our analysis, some interesting findings from the exploratory analysis results from our dataset, and a more detailed explanation of the app.  

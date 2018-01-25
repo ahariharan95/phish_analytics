@@ -4,7 +4,7 @@ The main purpose of this project was to create and analyze a dataset compiling i
 
 The completion of this project involved the efforts of countless hours of research, hardwork, and troubleshooting by Aishwarya Hariharan and two more students from the STOR 390: Introduction to Data Science class at the Univeristy of North Carolina at Chapel Hill, along with the coursework/lectures and guidance from the course instructor, Iain Carmichael.
 
-#Components of the Project
+# Components of the Project
 
 The main components of this project include the dataset and the shiny app.  The dataset we created comprises of 31 variables and 30,883 observations including data such as dates, shows, tours, locations, venues, ratings, tracks.  The shiny app has two parts, "Find a Show" and "Show Map", which allow users to create their own virtual concerts and to explore already occurred shows, locations, and venues.  
 

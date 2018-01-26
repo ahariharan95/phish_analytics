@@ -1,3 +1,6 @@
+---
+layout: default
+---
 
 # Phanalytix: An Analysis of Phish
 

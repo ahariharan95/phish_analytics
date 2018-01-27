@@ -19,6 +19,8 @@ Phanalytix is a tool to help new users explore the band or Phish fans to figure 
 
 The "Find a Show" component allows users to create a virtual concert with the given inputs for song/show recommendations.  These inputs are dates, song length, rarity of songs, rating from Phish.net (Phish's website), number of covers, number of debuts, number of teases within the song, oddities, and a time frame for year.  Given these inputs, the app extracts a set of songs which fulfill the user's criteria. It also provides the link so that users can stream the songs, and some basic information about the show date, location, and venue. The "Show Map" component is another cool feature in the app. It's a map of the world with pinpoints that indicate locations Phish has performed at in the past. Upon clicking on the pins, users can see the venue name and the number of shows performed there. 
 
+knitr::include_app("https://phanalytix.shinyapps.io/app390/", 
+  height = "600px")
 
 **phanalytix.csv: Original Dataset**
 

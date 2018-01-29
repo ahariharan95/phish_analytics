@@ -21,7 +21,7 @@ The "Find a Show" component allows users to create a virtual concert with the gi
 
 The [app](https://ahariharan.shinyapps.io/phanalytix_app/) is embedded below:  
 
-<iframe src="https://ahariharan.shinyapps.io/phanalytix_app/" style=" border: 2px solid black;width:800px;height:800px;"></iframe>
+<iframe src="https://ahariharan.shinyapps.io/phanalytix_app/" style=" border: 2px solid black;width:800px;height:600px;"></iframe>
 
 
 **phanalytix.csv: Original Dataset**

@@ -33,5 +33,5 @@ The dataset we created is comprised of 31 variables and more than 30,000 observa
 
 ## Blog
 
-There is also a blog which goes into more detail regarding the project.  It includes information on the background of the band and our analysis, some interesting findings from the exploratory analysis results from our dataset, and a detailed explanation of the app.  The blog can also be found on the repository as well.  
+There is also a blog which goes into more detail regarding the project.  It includes information on the background of the band and our analysis, some interesting findings from the exploratory analysis results from our dataset, and a detailed explanation of the app.  The blog can be found [here](file:///C:/Users/Aishu/Desktop/Phanalytix_blog.html), as well as its html file on the repository.  
 

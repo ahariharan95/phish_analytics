@@ -40,6 +40,6 @@ Included in the project is a process notebook which describes the processes our 
 
 ## Code
 
-All our code for the project can be found on the repository for this page.  This includes the RMarkdown file for the creation of the dataset and the r script for the shiny app.
+All our code for the project can be found on the repository for this page.  This includes the [RMarkdown file for the phanalytix.csv dataset](https://github.com/ahariharan95/phish_analytics/blob/master/phanalytix.Rmd) and the [r script for the shiny app](https://github.com/ahariharan95/phish_analytics/blob/master/phanalytix_shiny.r).
 
 

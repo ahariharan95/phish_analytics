@@ -21,14 +21,17 @@ The "Find a Show" component allows users to create a virtual concert with the gi
 
 The [app](https://ahariharan.shinyapps.io/phanalytix_app/) is embedded below:  
 
+
 <iframe src="https://ahariharan.shinyapps.io/phanalytix_app/" style=" border: 2px solid black;width:800px;height:650px;"></iframe>
+
 
 
 **phanalytix.csv: Original Dataset**
 
-The large dataset we created is comprised of 31 variables and more than 30,000 observations.  The following is a link to the csv file.  
+The dataset we created is comprised of 31 variables and more than 30,000 observations.  We wrote more than 500 lines of code to gather, clean, and arrange the data in a neat and readable csv file.  The [dataset](https://github.com/ahariharan95/phish_analytics/blob/master/phanalytix.csv) is uploaded on the [github repository](https://github.com/ahariharan95/phish_analytics) for this page.  
+
 
 ## Blog
 
-There is also a blog which goes into more detail regarding the project.  It includes more information on the background of the band and our analysis, some interesting findings from the exploratory analysis results from our dataset, and a more detailed explanation of the app.  
+There is also a blog which goes into more detail regarding the project.  It includes information on the background of the band and our analysis, some interesting findings from the exploratory analysis results from our dataset, and a detailed explanation of the app.  The blog can also be found on the repository as well.  
 

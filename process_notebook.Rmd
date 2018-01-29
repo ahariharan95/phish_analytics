@@ -1,0 +1,271 @@
+---
+title: "Process Notebook"
+author: "Rachel"
+date: "May 6, 2017"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r load data, warning = FALSE}
+library(dplyr)
+library(ggplot2)
+library(rvest)
+library(jsonlite)
+library(tidyverse)
+library(stringr)
+library(readr)
+library(ggmap)
+library(scales)
+
+phanalytix <- read.csv("data/phanalytix.csv", stringsAsFactors = FALSE)
+phanalytix <- mutate(phanalytix, date = as.Date(date))
+
+significance <- read.csv("data/significance.csv", stringsAsFactors = FALSE)
+
+```
+
+#Phanalytix: An Exploration of Phish
+
+![The band's logo.](http://sensiblereason.com/wp-content/uploads/2014/07/phish.jpg)
+
+###Abstract
+
+    The purpose of this project was to create an original dataset compiling information about shows and songs performed by the band Phish from 1983 to the present. Phish is a jam band whose fans have curated several websites documenting their songs, shows, and tours. We sought to compile all of the information available on the web about this band into one giant dataset. Thus the main product of our project is the phanalytix.csv file. The creation of this file involved countless hours of troubleshooting, three different APIs, web-scraping, and significant data cleaning. The three APIs were from [Phish.in](https://phish.in), [Phish.net](https://phish.net), and Google's map API. We also used web-scraping to gather additional information from Phish.in and Phish.net. In addition to creating this dataset, we also made a Shiny app which allows users to interact with the data through a "Find a Concert" componenet and a map component.
+
+    This document provides a summary of the methods used, an overview of the findings from our exploratory data analysis, and explanation of our Shiny app, and a discussion of the process behind the project.
+
+![The band members.](https://media.npr.org/assets/img/2016/09/12/phish_wide-9a20cc91db41b6ab8e00797ebccdbc9835368672.jpg?s=1400)
+
+###Overview and Motivation: 
+
+    This project was in large part the brainchild of Joe May. Joe has been a fan of the band Phish for several years and noticed that there are several fan-made websites which compile a large amount of information about the concerts and songs that Phish plays. As a group, we set out to scrape this data from the web and combine it all to create one giant database about the band. We call this project "Phanalytix." After scraping the data, we originally planned to do general exploratory data analysis in search of interesting trends, but quickly set our sights higher. Led by Joe, we devised a Shiny app which gives a personalized list of concerts based on the user's inputs. We wanted to give the fans a way to interact with the data we had compiled so that future Phish aficionados can easily access the information that we found.
+    
+###Related Work: 
+
+    As far as we know, there are only two other sources that have attempted any sort of statistical analysis of Phish data. 
+	
+    Phish.net (one of the two websites we used to get our data) allows users to keep track of the shows that they have been to and provides a couple of statistics about those shows. It lists all the songs they've heard played, the most popular songs they haven't seen, and the number of times they've been to a concert on each day of the week and in each concert location. 
+	
+    David "ZZYZX" Steinberg has produced an analysis called ["Phishtistics"](http://www.ihoz.com/PhishStats.html) which appears to have been last updated in 2012. It provides more statistical analysis than Phish.net, but there really isn't much in the way of analysis - it is more a collection of certain data. For example, you can choose a year and get a summary of how many shows were played on each day of the week, in each state, in each venue, etc. You can also see the average number of songs played per show. On the website, he also has links to several interesting forms of portraying the data - for example, the "pattern matcher" which "will find and generate stats based on criteria such as venue name, city, state, day of the year" - but unfortunately these links are broken. One link that does work is the "every time played" link which allows you to choose a song and provides a list of the dates the song was played along with a graph of the times played versus year. However, the main drawback to this website and especially the "every time played" section is that the data is not prettily displayed.  
+    
+![The graphs in particular leave room for improvement.]("data/phishtistics.png")
+
+    We set out to do some analysis that was similar to David Steinberg's, such as looking at the trends of songs over the years. However, we hoped to expand past his analysis by incorporating more subjective elements, such as measures of popularity/significance of songs and shows. Our Shiny app matching shows based on certain criteria is also totally uncharted territory, as far as we are aware. 
+
+    We relied on several of Iain's notes for APIs and web-scraping as well as one set of notes written by Brandon on exploratory data analysis (specifically maps). 
+    
+###Initial Questions
+
+The initial 10 questions we included in our proposal are reproduced here:
+
+1. Which cities get the "best" songs? (as defined by a metric of significance/popularity provided by Phish)
+2. How does song length vary based on indoor versus outdoor performances?
+3. In which cities/states/venues does the band most often perform?
+4. How often do they play covers relative to their album releases?
+a. When they put out a new album, they play more of their own music
+5. Which songs are often repeated in a set? Do those songs have a higher significance rating?
+6. Which songs provide most easy segues?
+7. What type of transitions are most common with new album releases?
+8. Which songs are most popular at which venues?
+9. Is there a correlation between certain current events and which songs are played?
+10. What is the average significance of songs played on Sundays?
+    + "Never Miss a Sunday Show"
+    + The band often plays their best shows on the days when the least people come.
+
+    We did have to make some changes to this list as we realized what data was available and what we were most interested in. For example, categorizing the performances by indoor/outdoor would have required us to go through by hand, which would have been much too time-consuming. Therefore, we were not able to answer question 2. 
+
+    In addition, the main question we added as we started to gather our dataset was "how can we make this accessible to Phish fans?" We settled on the idea of a Shiny app which would allow fans to see some of the data we gathered and tweak what they see based on some of the many variables we collected, such as the song length, the number of shows since last played, and whether the song included teases for other songs. 
+    
+    Initially, we were particularly interested in using maps to portray the data. The following map is one example of this.
+    
+    ```{r Rachel contributions 2, warning = FALSE}
+#code to create map grabbed from Brendan's lecture on advanced EDA
+us <- map_data('state')
+
+#states.csv taken from http://www.fonz.net/blog/archives/2008/04/06/csv-of-states-and-state-abbreviations/
+states_names <- read_csv("data/states.csv")
+states_names$State <- tolower(states_names$State)
+
+#making a dataset of states and the number of shows played
+shows_us <- phanalytix%>%
+    filter(country== "United States")%>%
+    group_by(venue_name, date, state)%>%
+    summarize(num_songs = n())%>%
+    group_by(state)%>%
+    summarize(num_shows = n())
+shows_us <- mutate(shows_us, state = str_extract_all(state, "(?<=\\s)[A-Z]+"))
+
+#joining the state data with full state names
+shows_us <- mutate(shows_us, state = as.character(state))
+shows_us <- left_join(states_names, shows_us, by = c("Abbreviation" = "state")) 
+
+#joining the state data with the map data
+us <- left_join(us, shows_us, by = c("region" = "State"))
+
+#if there were no shows in a particular state, fill in 0 rather than NA
+for(i in 1:15537){
+    index <- i
+    if(is.na(us$num_shows[index])){
+        us$num_shows[index] <- 0
+    }
+}
+
+ggplot(data = us, aes(x = long, y = lat)) + 
+    geom_polygon(color = "transparent", aes(group = group, fill = num_shows)) +
+    theme_minimal() +
+    scale_fill_gradient(name = "Number of Phish concerts played in each state", 
+                        high = "#e06969", 
+                        low = "#fce0e0") +
+    theme(panel.grid.major = element_blank(), 
+          panel.grid.minor = element_blank(), 
+          axis.ticks = element_blank(),
+          legend.position="bottom", 
+          legend.box = "horizontal") + 
+    scale_x_continuous("", breaks = NULL) + 
+    scale_y_continuous("", breaks = NULL)+
+    geom_point(data = filter(phanalytix, longitude<0, latitude < 50, latitude > 25), 
+                aes(x = longitude, y = latitude), 
+                color = 'red', 
+                size = 2.75, 
+                alpha = 1, 
+                shape = "o")+
+    geom_point(data = filter(phanalytix, longitude<0, latitude < 50, latitude > 25), 
+                aes(x = longitude, y = latitude), 
+                color = 'red', 
+                size = 2.75, 
+                alpha = 1, 
+                shape = "o")+
+    labs(title='Cities where Phish performed')
+
+```
+
+    This map portrays the locations of the cities where Phish performed concerts during the entirety of their time as a band. The states are shaded based on the number of concerts that have been played in each state. By far, New York has hosted the most concerts over Phish's career, followed by Vermont, California, Massachusetts, and Colorado. Phish has never held a concert in Arkansas, North Dakota, South Dakota, and Wyoming. The cities they have performed in seem to be concentrated in three groups: one along the west coast especially in California, one on the East Coast in the New York area, and one smaller cluster in Colorado. 
+
+###Data
+
+    We created our own dataset. We began by using Phish.in's API to get basic information about shows, to which we added basic song information also from Phish.in. We then turned to Phish.net's API in order to gather more detailed information and subjective variables for the songs. We combined this with the Phish.in data. Finally, we also scraped Phish.net to get the data on gaps and when the songs were debuted. 
+    
+```{r Rachel contributions 1, warning = FALSE}
+yearly_tours <- group_by(phanalytix, year, id_show)%>%
+    summarize(num_songs = n())
+yearly_shows <- group_by(yearly_tours, year)%>%
+    summarize(num_shows = n())
+yearly <- group_by(phanalytix, year)%>%
+    summarize(num_songs = n())%>%
+    mutate(num_shows = yearly_shows$num_shows)
+
+ggplot(data=yearly, aes(x=year, y=num_shows))+
+    geom_point(color = "black")+
+    geom_line(color = "purple")+
+    theme(panel.background = element_blank(), # backgound/axis
+        axis.line = element_line(colour = "black", size=.1),
+        legend.position='none')+
+    labs(x='Year',
+         y='Number of shows performed',
+         title='Performances peaked in the mid-90s')+
+    scale_x_continuous(breaks=seq(1980,2020,5))
+
+```
+
+    This graph provides a nice summary introduction to the dataset. It plots the number of shows performed in each year from 1983 to 2017. The dip in the 2000s can be explained by the tumultuous status of the band: they broke up several times in the period from 2000 to 2010. The most shows were performed in 1994. From the graph, it seems like the early 90s were the peak time for Phish concerts. 
+    
+    After compiling all this data into one large tibble, we created some additional variables (such as year, song duration measured in minutes, show duration measured in hours, and rotation) by using dplyr functions and basic mathematical expressions. Then, we turned to Google's API in order to get the locations of each city where concerts were played. In order to avoid maxing out the number of requests per day allowed by Google (the max number is 2500; our dataset has over 30000 songs), we first grouped by city, then added the location data back into our original large tibble. Finally, we cleaned everything up and our final product was the phanalytix dataset!
+
+###Exploratory Data Analysis
+
+    For the exploratory analysis, we each set out to make 10 visualizations, which means we have 30 visualizations total. We will not reproduce all of those in this document, but we will include a couple to provide an introduction to the dataset. We began with more simple graphs, then moved on to more complex graphs and also several maps. We avoided any statistical inference as we wanted to focus on simply allowing others to explore the data and get an idea of the visual trends. 
+
+```{r Aish contributions 1}
+tours_phish <- phanalytix %>% 
+    na.omit(phanalytix$artist) %>% 
+    group_by(id_tour, cover_dummy) %>% 
+    summarize(total_covers = n()) %>% 
+    arrange(id_tour) 
+
+ggplot(tours_phish) +
+    aes(id_tour, total_covers) +
+    geom_jitter () + 
+    geom_smooth() +
+    ggtitle ("Larger Spike in Total Numbers of Covers per Tour within First 25 Tours") +
+    labs(x="Tour ID", y = "Total Covers") +
+    theme(panel.background = element_blank()) + 
+    theme(axis.text.x = element_text(size = 10))    
+```
+
+    This is a jitter plot of the total number of covers performed versus the Tour ID (which is a variable representing time). As it shows, over time, the total number of covers performed per tour has been relatively stagnant, after about the 40th tour. For the first 25 tours, there were more covers performed. Note: There is a patch without any observations, around tour ID 75. This was during the years 2005-2010, when the band was not together.    
+
+```{r Aish contributions 2}
+venue_like_count_show <- phanalytix %>% 
+        select(location, venue_name, tour, ratings, like_count_show, date) %>% 
+            group_by(venue_name, like_count_show) %>% 
+                summarise(n()) %>% 
+                    summarise(Average_like_count_show = mean(like_count_show))
+
+top_25_like_count_show <- venue_like_count_show[venue_like_count_show$Average_like_count_show>16.75,]
+
+ggplot(top_25_like_count_show) +
+    aes(Average_like_count_show, venue_name) +
+    geom_jitter() +
+    ggtitle("Big Cypress has the highest rating from Phish.net") + 
+    theme(axis.text.x = element_text(size = 10))+
+    labs(x="Average Like Count of Show", y = "Venue of Show") +
+    theme(panel.background = element_blank())
+```    
+    
+    Out of all the top 25 venues, measured by average like-count from Phish fans, the majority have a "like count of show" value below 50. There is an outlier, with 85.33 as the value of the average like count of show, and it is at the venue Big Cypress Seminole Indian Reservation, where Phish played an almost 8 hour shows to usher in the New Year.  
+    
+![The highest rated show according to Phish.net users occured in 1999 at the Big Cypress National Reserve. it was a legendary New Year's Eve concert which lasted 7.5 hours long, from midnight on New Years Eve until sunrise on New Years Day](https://s-media-cache-ak0.pinimg.com/originals/ed/ea/67/edea673e39bbd160cc692b5a9c0ba0f5.jpg)
+
+```{r}
+significance %>% 
+    group_by(date, ratings) %>% 
+    summarise(teases = sum(tease_dummy)) %>% 
+    arrange(desc(teases)) %>% 
+    ggplot() +
+    geom_jitter(aes(teases, ratings), width = .5, height = .2) +
+    geom_smooth(aes(teases, ratings), method = 'lm', se=FALSE) + 
+    ggtitle('Higher rated shows are correlated with more song teases') +
+    xlab('Number of times Phish played one song inside of another during a show') +
+    ylab("Rating from Phish.Net")
+```
+
+    This plot looks at information from the "notes" variable, pulling out songs that included the words "tease" or "quote", meaning that the band played bits of one song inside of another. This musical action was frequently used in the late 90's and is less common now. Often times they would interweave countless other songs inside of one song's structure, while carrying that song on for an extended period of time. These performances, when executed well, were very enjoyable, and the plot shows that concerts with the highest number of teases and quotes are correlated with a higher average rating on Phish.net.
+
+```{r Joe contributions 1}
+significance %>% 
+    mutate(days_since_debut = since_debut) %>% 
+    ggplot() +
+    geom_jitter(aes(adj_gap, ratings, color = days_since_debut), na.rm = TRUE, width = .5) +
+    geom_smooth(aes(adj_gap, ratings), method = 'lm', na.rm = TRUE, se = FALSE, color = 'Red') +
+    scale_color_gradientn(colors = c('sky blue', 'black')) +
+    ggtitle("Shows which include rarely performed songs are percieved as better") +
+    xlab("Number of shows passed between live performances") +
+    ylab("Rating from Phish.Net")
+```
+    There are many factors that go into what making Phish shows and songs special to concert-goers. One that particularly interested Joe is which songs are considered 'rare.' The people who follow the tours closely know what hasn't been played, and anytime something new is busted out, the crowd usually picks up on it very quickly, even if the song hasn't been played in 10-20 years. This plot groups the data by show and summarises the average song gap for each concert, the rating from Phish.Net, and the days between the song performance and its debut. It shows that concerts with high average song gaps are correlated with higher phish.net ratings, with only one significant outlier. We also include days since the debut as a color pattern because more recent songs been around long enough to be brought out years later, so the color seeks to point out that confounding factor.
+    
+```{r Joe contributions 2}
+text_df <- tibble(x = c(2001.5,2007), y = c(5,2), text = c('Two Year Hiatus', 'Four Year Break-Up'))
+significance %>% 
+    group_by(date, year) %>% 
+    summarise(avg_rating = mean(ratings)) %>% 
+    ggplot() +
+    geom_jitter(aes(year, avg_rating), width = .3, height = .4) +
+    geom_smooth(aes(year, avg_rating), se=FALSE) +
+    ylim(0,5) +
+    scale_x_continuous(breaks=seq(from=1980, to=2020, by=5)) +
+    ggtitle("How the percieved quality of shows has changed over time") +
+    xlab("Year") +
+    ylab("Average Rating from Phish.Net") +
+    geom_text(data = text_df, aes(x=x, y=y, label = text), color = 'red')
+```
+    Though Phish has kept the original members for the entirety of the band's existance, they have gone through many aristic phases. Objectively speaking, their career is broken into three chunks: 1.0 is from 1984 until 2000, when they went on a hiatus. 2.0 lasts from 2000 until 2004 when they broke up indefinitely. Lastly, 3.0 spans from 2009 (when they got back together) until now. Each phase is defined by very different sounds, improvisational styles, and lifestyle influences that have moulded their live sound, and each era has its rabid fans and doubters. This chart maps each year's shows and their average of ratings from Phish.Net. It seems that there was a peak right before they band broke up, at the end of chunk 1.0 of their career. Since they've gotten back together (chunk 3.0 of their career), the Phish.net ratings of their shows have again started to rise. 
+    
+###Final Analysis
+
+    For our final analysis we created a Shiny app as previously described. The main question being answered is, "Which show should I listen to based on the characteristics that I would like a show to have?" It also provides an interactive map so that fans can click on a concert location and get information about how many shows have been held there. 
+    
+    

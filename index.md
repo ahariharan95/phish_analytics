@@ -32,11 +32,11 @@ The [app](https://ahariharan.shinyapps.io/phanalytix_app/) is embedded below:
 
 ## Blog
 
-There is also a blog which goes into more detail regarding the project.  It includes information on the background of the band and our analysis, some interesting findings from the exploratory analysis results from our dataset, and a detailed explanation of the app.  The blog can be found [here](https://github.com/ahariharan95/phish_analytics/blob/master/Phanalytix_blog.html), as well as its html file on the repository.  
+There is also a blog which goes into more detail regarding the project.  It includes information on the background of the band and our analysis, some interesting findings from the exploratory analysis results from our dataset, and a detailed explanation of the app.  The blog can be found [here](http://rpubs.com/ahariharan95/phanalytix_blog), as well as its html file on the repository.  
 
 ## Process Notebook
 
-Included in the project is a process notebook which describes the processes our group used to conduct the analysis.  It includes the overview and motivation for our project, the initial questions we wanted to solve in our analysis, the data we used and methods involved in obtaining it, our exploratory data analysis, and the final analysis.  It can be found [here](http://rpubs.com/ahariharan95/phanalytix_blog), and on the github repository.
+Included in the project is a process notebook which describes the processes our group used to conduct the analysis.  It includes the overview and motivation for our project, the initial questions we wanted to solve in our analysis, the data we used and methods involved in obtaining it, our exploratory data analysis, and the final analysis.  It can be found [here](), and on the github repository.
 
 ## Code
 

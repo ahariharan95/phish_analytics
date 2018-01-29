@@ -6,7 +6,7 @@ layout: default
 
 The main purpose of this project was to create and analyze a dataset compiling information about the shows and songs performed by the band Phish from 1983 to 2017.  Phish is an American rock band, founded in the University of Vermont in 1983 and known for musical improvisation, extended jams, and blending of genres.  With their huge and dedicated fan base, there are multiple websites that have been created, documenting their songs, shows, and tours.  Therefore, this project is based on the compilation of all of the information available, mainly from Phish.in and Phish.net, into one large dataset.  The three main resources for the creation of this dataset were Phish.in, Phish.net, and Google Maps' API.  Through web-scraping and data cleaning, phanalytix.csv was created, comprising of 31 variables and 30,883 observations.  In addition to the csv, a Shiny app, Phanylytix, was also created as a part of the project to allow users to interact with the data we found in a meaningful and direct way.  The app is a good tool to use for fans of the band as well as those who are new.  
 
-The completion of this project involved the efforts of countless hours of research, hardwork, and troubleshooting by Aishwarya Hariharan and two more students from the STOR 390: Introduction to Data Science class at the Univeristy of North Carolina at Chapel Hill, along with the coursework/lectures and guidance from the course instructor, Iain Carmichael.
+The completion of this project involved the efforts of countless hours of research, hardwork, and troubleshooting by three students, Joe May, Aishwarya Hariharan, and Rachel Nesbit, from the STOR 390: Introduction to Data Science class at the Univeristy of North Carolina at Chapel Hill, along with the [coursework/lectures](https://idc9.github.io/stor390/) and guidance from the course instructor, Iain Carmichael.
 
 ## Components of the Project
 
@@ -36,7 +36,7 @@ There is also a blog which goes into more detail regarding the project.  It incl
 
 ## Process Notebook
 
-Included in the project is a process notebook which describes the processes my group used to conduct the analysis.  It includes the overview and motivation for our project, the initial questions we wanted to solve in our analysis, the data we used and methods involved in obtaining it, our exploratory data analysis, and the final analysis.  It can be found [here](https://github.com/ahariharan95/phish_analytics/blob/master/process_notebook.Rmd), and on the github repository.
+Included in the project is a process notebook which describes the processes our group used to conduct the analysis.  It includes the overview and motivation for our project, the initial questions we wanted to solve in our analysis, the data we used and methods involved in obtaining it, our exploratory data analysis, and the final analysis.  It can be found [here](https://github.com/ahariharan95/phish_analytics/blob/master/process_notebook.Rmd), and on the github repository.
 
 
 

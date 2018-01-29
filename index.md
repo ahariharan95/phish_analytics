@@ -13,6 +13,11 @@ The completion of this project involved the efforts of countless hours of resear
 The main components of this project include the dataset and the shiny app.  The dataset we created comprises of 31 variables and 30,883 observations including data such as dates, shows, tours, locations, venues, ratings, tracks.  The shiny app has two parts, "Find a Show" and "Show Map", which allow users to create their own virtual concerts and to explore already occurred shows, locations, and venues.  
 
 
+**phanalytix.csv: Original Dataset**
+
+The dataset we created is comprised of 31 variables and more than 30,000 observations.  We wrote more than 500 lines of code to gather, clean, and arrange the data in a neat and readable csv file.  The [dataset](https://github.com/ahariharan95/phish_analytics/blob/master/phanalytix.csv) is uploaded on the [github repository](https://github.com/ahariharan95/phish_analytics) for this page. 
+
+
 **Phanalytix: Shiny App**
 
 Phanalytix is a tool to help new users explore the band or Phish fans to figure out what show to listen to next. The research and data collection that went into creating the app helped uncover some interesting information. There are many resources out there that archive phish shows and analyze trends, but Phanalytix seeks to create applications for all this data, making it interactive and insightful.
@@ -22,16 +27,16 @@ The "Find a Show" component allows users to create a virtual concert with the gi
 The [app](https://ahariharan.shinyapps.io/phanalytix_app/) is embedded below:  
 
 
-<iframe src="https://ahariharan.shinyapps.io/phanalytix_app/" style=" border: 2px solid black;width:800px;height:650px;"></iframe>
-
-
-
-**phanalytix.csv: Original Dataset**
-
-The dataset we created is comprised of 31 variables and more than 30,000 observations.  We wrote more than 500 lines of code to gather, clean, and arrange the data in a neat and readable csv file.  The [dataset](https://github.com/ahariharan95/phish_analytics/blob/master/phanalytix.csv) is uploaded on the [github repository](https://github.com/ahariharan95/phish_analytics) for this page.  
+<iframe src="https://ahariharan.shinyapps.io/phanalytix_app/" style=" border: 2px solid black;width:800px;height:650px;"></iframe> 
 
 
 ## Blog
 
-There is also a blog which goes into more detail regarding the project.  It includes information on the background of the band and our analysis, some interesting findings from the exploratory analysis results from our dataset, and a detailed explanation of the app.  The blog can be found [here](file:///C:/Users/Aishu/Desktop/Phanalytix_blog.html), as well as its html file on the repository.  
+There is also a blog which goes into more detail regarding the project.  It includes information on the background of the band and our analysis, some interesting findings from the exploratory analysis results from our dataset, and a detailed explanation of the app.  The blog can be found [here](https://github.com/ahariharan95/phish_analytics/blob/master/Phanalytix_blog.html), as well as its html file on the repository.  
+
+## Process Notebook
+
+Included in the project is a process notebook which describes the processes my group used to conduct the analysis.  It includes the overview and motivation for our project, the initial questions we wanted to solve in our analysis, the data we used and methods involved in obtaining it, our exploratory data analysis, and the final analysis.  It can be found [here](https://github.com/ahariharan95/phish_analytics/blob/master/process_notebook.Rmd), and on the github repository.
+
+
 

@@ -1,7 +1,5 @@
 ---
 title: "Process Notebook"
-author: "Rachel"
-date: "May 6, 2017"
 output: html_document
 ---
 

@@ -36,7 +36,7 @@ There is also a blog which goes into more detail regarding the project.  It incl
 
 ## Process Notebook
 
-Included in the project is a process notebook which describes the processes our group used to conduct the analysis.  It includes the overview and motivation for our project, the initial questions we wanted to solve in our analysis, the data we used and methods involved in obtaining it, our exploratory data analysis, and the final analysis.  It can be found [here](), and on the github repository.
+Included in the project is a process notebook which describes the processes our group used to conduct the analysis.  It includes the overview and motivation for our project, the initial questions we wanted to solve in our analysis, the data we used and methods involved in obtaining it, our exploratory data analysis, and the final analysis.  It can be found [here](http://rpubs.com/ahariharan95/phanalytix_pn), and on the github repository.
 
 ## Code
 

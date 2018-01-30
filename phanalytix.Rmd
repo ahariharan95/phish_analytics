@@ -1,7 +1,7 @@
 ---
 title: "Phanalytix"
 author: "Joseph May, Rachel Nesbit, Aishwarya Harihan"
-date: "April 5, 2017"
+date: "April 5, 2017" 
 output: html_document
 ---
 #stor390Project
@@ -368,7 +368,7 @@ songs <- song_data %>%
            slug = str_replace_all(slug, '[:/\'(),!?.]', ''),
            #correct any irregularities in how phish.net parses their URLs
            slug = str_replace_all(slug, 'hang-on-to-yourself', 'hang-on-to-yours'), 
-           slug = str_replace_all(slug,'ä', ''),
+           slug = str_replace_all(slug,'Ã¤', ''),
            slug = str_replace_all(slug, 'tide-turns', 'tide-turnss'),
            slug = str_replace(slug,'timber', 'timber-haunted'),
            slug = str_replace(slug,'timber-haunted-jerry', 'timber-jerry'))
@@ -456,7 +456,7 @@ for(i in 2:dim(songs)[1]) {
 #Tidy up the data frame:
 song_notes <- song_gap_data %>% 
     #If a song has been teased inside of another song it goes into a different table on the website        that the HTML picks up; this regular expression removes that unecessary info
-    filter(!grepl('[qwertyuiopasdfghjklzxcvbnm]|ø', gap)) %>% 
+    filter(!grepl('[qwertyuiopasdfghjklzxcvbnm]|Ã¸', gap)) %>% 
     mutate(gap = parse_number(gap),
            date = parse_datetime(date),
            #change all notes to lower case for easier regular expressions
